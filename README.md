@@ -1,23 +1,23 @@
 # Artemis1
-Artemis1 simulation
+Artemis1 simulation using GMAT
 
-## inertial frame
+### inertial frame
 ![sample1](img/GmatScreenShot_001.png)
-## Earth Moon frame
+### Earth Moon frame
 ![sample2](img/GmatScreenShot_002.png)
-## ground trace
+### ground trace
 ![sample3](img/GmatScreenShot_003.png)
-## doppler observation
+### doppler observation
 ![sample4](img/doppler_004.png)
-## orbit determination
+### orbit determination
 coming soon
 
-# Requirement
+## Requirement
 * GMAT R2020a
 * matplotlib
 * astropy
 
-# Note
+## Note
 The following trajectory data was used.
 
 https://www.nasa.gov/feature/track-nasa-s-artemis-i-mission-in-real-time/
