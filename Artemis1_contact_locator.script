@@ -1,0 +1,370 @@
+%General Mission Analysis Tool(GMAT) Script
+%Created: 2023-01-01 00:00:00
+
+
+%----------------------------------------
+%---------- Spacecraft
+%----------------------------------------
+
+Create Spacecraft Artemis1;
+GMAT Artemis1.DateFormat = UTCGregorian;
+GMAT Artemis1.Epoch = '16 Nov 2022 09:00:00.000';
+GMAT Artemis1.CoordinateSystem = EarthMJ2000Eq;
+GMAT Artemis1.DisplayStateType = Cartesian;
+GMAT Artemis1.X = 7100;
+GMAT Artemis1.Y = 0;
+GMAT Artemis1.Z = 1300;
+GMAT Artemis1.VX = 0;
+GMAT Artemis1.VY = 7.35;
+GMAT Artemis1.VZ = 1;
+GMAT Artemis1.DryMass = 150;
+GMAT Artemis1.Cd = 2.2;
+GMAT Artemis1.Cr = 1.8;
+GMAT Artemis1.DragArea = 15;
+GMAT Artemis1.SRPArea = 1;
+GMAT Artemis1.SPADDragScaleFactor = 1;
+GMAT Artemis1.SPADSRPScaleFactor = 1;
+GMAT Artemis1.AtmosDensityScaleFactor = 1;
+GMAT Artemis1.ExtendedMassPropertiesModel = 'None';
+GMAT Artemis1.NAIFId = -56;
+GMAT Artemis1.NAIFIdReferenceFrame = -9000001;
+GMAT Artemis1.OrbitSpiceKernelName = {'../../Artemis1/data/Artemis1.bsp'};
+GMAT Artemis1.OrbitColor = Red;
+GMAT Artemis1.TargetColor = Teal;
+GMAT Artemis1.OrbitErrorCovariance = [ 1e+70 0 0 0 0 0 ; 0 1e+70 0 0 0 0 ; 0 0 1e+70 0 0 0 ; 0 0 0 1e+70 0 0 ; 0 0 0 0 1e+70 0 ; 0 0 0 0 0 1e+70 ];
+GMAT Artemis1.CdSigma = 1e+70;
+GMAT Artemis1.CrSigma = 1e+70;
+GMAT Artemis1.Id = '11111';
+GMAT Artemis1.Attitude = CoordinateSystemFixed;
+GMAT Artemis1.SPADSRPInterpolationMethod = Bilinear;
+GMAT Artemis1.SPADSRPScaleFactorSigma = 1e+70;
+GMAT Artemis1.SPADDragInterpolationMethod = Bilinear;
+GMAT Artemis1.SPADDragScaleFactorSigma = 1e+70;
+GMAT Artemis1.AtmosDensityScaleFactorSigma = 1e+70;
+GMAT Artemis1.AddHardware = {HGA, SatTransponder};
+GMAT Artemis1.ModelFile = 'aura.3ds';
+GMAT Artemis1.ModelOffsetX = 0;
+GMAT Artemis1.ModelOffsetY = 0;
+GMAT Artemis1.ModelOffsetZ = 0;
+GMAT Artemis1.ModelRotationX = 0;
+GMAT Artemis1.ModelRotationY = 0;
+GMAT Artemis1.ModelRotationZ = 0;
+GMAT Artemis1.ModelScale = 1;
+GMAT Artemis1.AttitudeDisplayStateType = 'Quaternion';
+GMAT Artemis1.AttitudeRateDisplayStateType = 'AngularVelocity';
+GMAT Artemis1.AttitudeCoordinateSystem = EarthMJ2000Eq;
+GMAT Artemis1.EulerAngleSequence = '321';
+
+%----------------------------------------
+%---------- Hardware Components
+%----------------------------------------
+
+Create Antenna HGA;
+GMAT HGA.DirectionX = 1;
+GMAT HGA.DirectionY = 0;
+GMAT HGA.DirectionZ = 0;
+GMAT HGA.SecondDirectionX = 0;
+GMAT HGA.SecondDirectionY = 1;
+GMAT HGA.SecondDirectionZ = 0;
+GMAT HGA.HWOriginInBCSX = 0;
+GMAT HGA.HWOriginInBCSY = 0;
+GMAT HGA.HWOriginInBCSZ = 0;
+
+Create Transponder SatTransponder;
+GMAT SatTransponder.HardwareDelay = 1e-06;  %in seconds
+GMAT SatTransponder.PrimaryAntenna = HGA;
+GMAT SatTransponder.TurnAroundRatio = '880/749';
+
+Create Antenna DSNAntenna;
+GMAT DSNAntenna.DirectionX = 1;
+GMAT DSNAntenna.DirectionY = 0;
+GMAT DSNAntenna.DirectionZ = 0;
+GMAT DSNAntenna.SecondDirectionX = 0;
+GMAT DSNAntenna.SecondDirectionY = 1;
+GMAT DSNAntenna.SecondDirectionZ = 0;
+GMAT DSNAntenna.HWOriginInBCSX = 0;
+GMAT DSNAntenna.HWOriginInBCSY = 0;
+GMAT DSNAntenna.HWOriginInBCSZ = 0;
+
+Create Transmitter DSNTransmitter;
+GMAT DSNTransmitter.PrimaryAntenna = DSNAntenna;
+GMAT DSNTransmitter.Frequency = 7200;  %MHz.
+GMAT DSNTransmitter.FrequencyBand = 'None';
+
+Create Receiver DSNReceiver;
+GMAT DSNReceiver.PrimaryAntenna = DSNAntenna;
+GMAT DSNReceiver.Id = '0';
+
+%----------------------------------------
+%---------- GroundStations
+%----------------------------------------
+
+Create GroundStation CAN;
+GMAT CAN.OrbitColor = Thistle;
+GMAT CAN.TargetColor = DarkGray;
+GMAT CAN.CentralBody = Earth;
+GMAT CAN.StateType = Cartesian;
+GMAT CAN.HorizonReference = Sphere;
+GMAT CAN.Location1 = -4461.083514;
+GMAT CAN.Location2 = 2682.281745;
+GMAT CAN.Location3 = -3674.570392;
+GMAT CAN.Id = '22222';
+GMAT CAN.AddHardware = {DSNTransmitter, DSNAntenna, DSNReceiver};
+GMAT CAN.IonosphereModel = 'None';
+GMAT CAN.TroposphereModel = 'None';
+GMAT CAN.DataSource = 'Constant';
+GMAT CAN.Temperature = 295.1;
+GMAT CAN.Pressure = 1013.5;
+GMAT CAN.Humidity = 55;
+GMAT CAN.MinimumElevationAngle = 7;
+GMAT CAN.ErrorModels = {DSNrange, DSNdoppler};
+
+Create GroundStation GDS;
+GMAT GDS.OrbitColor = Thistle;
+GMAT GDS.TargetColor = DarkGray;
+GMAT GDS.CentralBody = Earth;
+GMAT GDS.StateType = Cartesian;
+GMAT GDS.HorizonReference = Sphere;
+GMAT GDS.Location1 = -2353.621251;
+GMAT GDS.Location2 = -4641.341542;
+GMAT GDS.Location3 = 3677.05237;
+GMAT GDS.Id = '33333';
+GMAT GDS.AddHardware = {DSNTransmitter, DSNAntenna, DSNReceiver};
+GMAT GDS.IonosphereModel = 'None';
+GMAT GDS.TroposphereModel = 'None';
+GMAT GDS.DataSource = 'Constant';
+GMAT GDS.Temperature = 295.1;
+GMAT GDS.Pressure = 1013.5;
+GMAT GDS.Humidity = 55;
+GMAT GDS.MinimumElevationAngle = 7;
+GMAT GDS.ErrorModels = {DSNrange, DSNdoppler};
+
+Create GroundStation MAD;
+GMAT MAD.OrbitColor = Thistle;
+GMAT MAD.TargetColor = DarkGray;
+GMAT MAD.CentralBody = Earth;
+GMAT MAD.StateType = Cartesian;
+GMAT MAD.HorizonReference = Sphere;
+GMAT MAD.Location1 = 4849.519988;
+GMAT MAD.Location2 = -360.641653;
+GMAT MAD.Location3 = 4114.50459;
+GMAT MAD.Id = '44444';
+GMAT MAD.AddHardware = {DSNTransmitter, DSNAntenna, DSNReceiver};
+GMAT MAD.IonosphereModel = 'None';
+GMAT MAD.TroposphereModel = 'None';
+GMAT MAD.DataSource = 'Constant';
+GMAT MAD.Temperature = 295.1;
+GMAT MAD.Pressure = 1013.5;
+GMAT MAD.Humidity = 55;
+GMAT MAD.MinimumElevationAngle = 7;
+GMAT MAD.ErrorModels = {DSNrange, DSNdoppler};
+
+%----------------------------------------
+%---------- ForceModels
+%----------------------------------------
+
+Create ForceModel Prop_ForceModel;
+GMAT Prop_ForceModel.CentralBody = Earth;
+GMAT Prop_ForceModel.PrimaryBodies = {Earth};
+GMAT Prop_ForceModel.Drag = None;
+GMAT Prop_ForceModel.SRP = Off;
+GMAT Prop_ForceModel.RelativisticCorrection = Off;
+GMAT Prop_ForceModel.ErrorControl = RSSStep;
+GMAT Prop_ForceModel.GravityField.Earth.Degree = 4;
+GMAT Prop_ForceModel.GravityField.Earth.Order = 4;
+GMAT Prop_ForceModel.GravityField.Earth.StmLimit = 100;
+GMAT Prop_ForceModel.GravityField.Earth.PotentialFile = 'JGM2.cof';
+GMAT Prop_ForceModel.GravityField.Earth.TideModel = 'None';
+
+%----------------------------------------
+%---------- Propagators
+%----------------------------------------
+
+Create Propagator Prop;
+GMAT Prop.Type = SPK;
+GMAT Prop.StepSize = 300;
+GMAT Prop.CentralBody = Earth;
+GMAT Prop.EpochFormat = 'UTCGregorian';
+GMAT Prop.StartEpoch = '16 Nov 2022 09:00:00.000';
+
+%----------------------------------------
+%---------- Coordinate Systems
+%----------------------------------------
+
+Create CoordinateSystem EarthMoonFixed;
+GMAT EarthMoonFixed.Origin = Earth;
+GMAT EarthMoonFixed.Axes = ObjectReferenced;
+GMAT EarthMoonFixed.XAxis = R;
+GMAT EarthMoonFixed.ZAxis = N;
+GMAT EarthMoonFixed.Primary = Earth;
+GMAT EarthMoonFixed.Secondary = Luna;
+
+
+%----------------------------------------
+%---------- ErrorModels
+%----------------------------------------
+
+Create ErrorModel DSNrange;
+GMAT DSNrange.Type = 'DSN_SeqRange';
+GMAT DSNrange.NoiseSigma = 10.63;
+GMAT DSNrange.Bias = 0;
+GMAT DSNrange.BiasSigma = 1e+70;
+
+Create ErrorModel DSNdoppler;
+GMAT DSNdoppler.Type = 'DSN_TCP';
+GMAT DSNdoppler.NoiseSigma = 0.0282;
+GMAT DSNdoppler.Bias = 0;
+GMAT DSNdoppler.BiasSigma = 1e+70;
+
+%----------------------------------------
+%---------- EventLocators
+%----------------------------------------
+
+Create ContactLocator ContactLocator1;
+GMAT ContactLocator1.Target = Artemis1;
+GMAT ContactLocator1.Filename = 'ContactLocator1.txt';
+GMAT ContactLocator1.InputEpochFormat = 'TAIModJulian';
+GMAT ContactLocator1.InitialEpoch = '21545';
+GMAT ContactLocator1.StepSize = 300;
+GMAT ContactLocator1.FinalEpoch = '21545.138';
+GMAT ContactLocator1.UseLightTimeDelay = true;
+GMAT ContactLocator1.UseStellarAberration = true;
+GMAT ContactLocator1.WriteReport = true;
+GMAT ContactLocator1.RunMode = Automatic;
+GMAT ContactLocator1.UseEntireInterval = true;
+GMAT ContactLocator1.Observers = {CAN};
+GMAT ContactLocator1.LightTimeDirection = Transmit;
+GMAT ContactLocator1.LeftJustified = false;
+GMAT ContactLocator1.ReportPrecision = 6;
+GMAT ContactLocator1.ReportFormat = 'Legacy';
+GMAT ContactLocator1.IntervalStepSize = 0;
+GMAT ContactLocator1.ReportTimeFormat = 'UTCGregorian';
+
+Create ContactLocator AzElRangeCL1;
+GMAT AzElRangeCL1.Target = Artemis1;
+GMAT AzElRangeCL1.Filename = 'ContactLocator1_AzElRangeFormat.txt';
+GMAT AzElRangeCL1.InputEpochFormat = 'TAIModJulian';
+GMAT AzElRangeCL1.InitialEpoch = '21545';
+GMAT AzElRangeCL1.StepSize = 300;
+GMAT AzElRangeCL1.FinalEpoch = '21545.138';
+GMAT AzElRangeCL1.UseLightTimeDelay = true;
+GMAT AzElRangeCL1.UseStellarAberration = true;
+GMAT AzElRangeCL1.WriteReport = true;
+GMAT AzElRangeCL1.RunMode = Automatic;
+GMAT AzElRangeCL1.UseEntireInterval = true;
+GMAT AzElRangeCL1.Observers = {CAN};
+GMAT AzElRangeCL1.LightTimeDirection = Transmit;
+GMAT AzElRangeCL1.LeftJustified = false;
+GMAT AzElRangeCL1.ReportPrecision = 6;
+GMAT AzElRangeCL1.ReportFormat = 'AzimuthElevationRangeReport';
+GMAT AzElRangeCL1.IntervalStepSize = 60;
+GMAT AzElRangeCL1.ReportTimeFormat = 'UTCMJD';
+
+%----------------------------------------
+%---------- MeasurementModels
+%----------------------------------------
+
+
+
+%----------------------------------------
+%---------- Solvers
+%----------------------------------------
+
+
+
+%----------------------------------------
+%---------- Subscribers
+%----------------------------------------
+
+Create OrbitView DefaultOrbitView;
+GMAT DefaultOrbitView.SolverIterations = Current;
+GMAT DefaultOrbitView.UpperLeft = [ 0.002941176470588235 0 ];
+GMAT DefaultOrbitView.Size = [ 0.5 0.4495192307692308 ];
+GMAT DefaultOrbitView.RelativeZOrder = 91;
+GMAT DefaultOrbitView.Maximized = false;
+GMAT DefaultOrbitView.Add = {Artemis1, Earth, Luna};
+GMAT DefaultOrbitView.CoordinateSystem = EarthMJ2000Eq;
+GMAT DefaultOrbitView.DrawObject = [ true true true ];
+GMAT DefaultOrbitView.DataCollectFrequency = 1;
+GMAT DefaultOrbitView.UpdatePlotFrequency = 50;
+GMAT DefaultOrbitView.NumPointsToRedraw = 0;
+GMAT DefaultOrbitView.ShowPlot = true;
+GMAT DefaultOrbitView.MaxPlotPoints = 20000;
+GMAT DefaultOrbitView.ShowLabels = true;
+GMAT DefaultOrbitView.ViewPointReference = Earth;
+GMAT DefaultOrbitView.ViewPointVector = [ 0 0 1000000 ];
+GMAT DefaultOrbitView.ViewDirection = Earth;
+GMAT DefaultOrbitView.ViewScaleFactor = 1;
+GMAT DefaultOrbitView.ViewUpCoordinateSystem = EarthMJ2000Eq;
+GMAT DefaultOrbitView.ViewUpAxis = Z;
+GMAT DefaultOrbitView.EclipticPlane = Off;
+GMAT DefaultOrbitView.XYPlane = On;
+GMAT DefaultOrbitView.WireFrame = Off;
+GMAT DefaultOrbitView.Axes = On;
+GMAT DefaultOrbitView.Grid = Off;
+GMAT DefaultOrbitView.SunLine = Off;
+GMAT DefaultOrbitView.UseInitialView = On;
+GMAT DefaultOrbitView.StarCount = 7000;
+GMAT DefaultOrbitView.EnableStars = On;
+GMAT DefaultOrbitView.EnableConstellations = On;
+
+Create GroundTrackPlot DefaultGroundTrackPlot;
+GMAT DefaultGroundTrackPlot.SolverIterations = Current;
+GMAT DefaultGroundTrackPlot.UpperLeft = [ 0.002941176470588235 0.4543269230769231 ];
+GMAT DefaultGroundTrackPlot.Size = [ 0.5 0.4495192307692308 ];
+GMAT DefaultGroundTrackPlot.RelativeZOrder = 77;
+GMAT DefaultGroundTrackPlot.Maximized = false;
+GMAT DefaultGroundTrackPlot.Add = {Artemis1, CAN, GDS, MAD};
+GMAT DefaultGroundTrackPlot.DataCollectFrequency = 1;
+GMAT DefaultGroundTrackPlot.UpdatePlotFrequency = 50;
+GMAT DefaultGroundTrackPlot.NumPointsToRedraw = 0;
+GMAT DefaultGroundTrackPlot.ShowPlot = true;
+GMAT DefaultGroundTrackPlot.MaxPlotPoints = 20000;
+GMAT DefaultGroundTrackPlot.CentralBody = Earth;
+GMAT DefaultGroundTrackPlot.TextureMap = 'ModifiedBlueMarble.jpg';
+
+Create OrbitView EarthMoonView;
+GMAT EarthMoonView.SolverIterations = Current;
+GMAT EarthMoonView.UpperLeft = [ 0 0 ];
+GMAT EarthMoonView.Size = [ 0 0 ];
+GMAT EarthMoonView.RelativeZOrder = 0;
+GMAT EarthMoonView.Maximized = false;
+GMAT EarthMoonView.Add = {Artemis1, Earth, Luna};
+GMAT EarthMoonView.CoordinateSystem = EarthMoonFixed;
+GMAT EarthMoonView.DrawObject = [ true true true ];
+GMAT EarthMoonView.DataCollectFrequency = 1;
+GMAT EarthMoonView.UpdatePlotFrequency = 50;
+GMAT EarthMoonView.NumPointsToRedraw = 0;
+GMAT EarthMoonView.ShowPlot = true;
+GMAT EarthMoonView.MaxPlotPoints = 20000;
+GMAT EarthMoonView.ShowLabels = true;
+GMAT EarthMoonView.ViewPointReference = Earth;
+GMAT EarthMoonView.ViewPointVector = [ 0 0 1000000 ];
+GMAT EarthMoonView.ViewDirection = Earth;
+GMAT EarthMoonView.ViewScaleFactor = 1;
+GMAT EarthMoonView.ViewUpCoordinateSystem = EarthMJ2000Eq;
+GMAT EarthMoonView.ViewUpAxis = Z;
+GMAT EarthMoonView.EclipticPlane = Off;
+GMAT EarthMoonView.XYPlane = On;
+GMAT EarthMoonView.WireFrame = Off;
+GMAT EarthMoonView.Axes = On;
+GMAT EarthMoonView.Grid = Off;
+GMAT EarthMoonView.SunLine = Off;
+GMAT EarthMoonView.UseInitialView = On;
+GMAT EarthMoonView.StarCount = 7000;
+GMAT EarthMoonView.EnableStars = On;
+GMAT EarthMoonView.EnableConstellations = On;
+
+%----------------------------------------
+%---------- Mission Sequence
+%----------------------------------------
+
+BeginMissionSequence;
+Propagate Prop(Artemis1) {Artemis1.ElapsedDays = 25};
+
+
+
+
+
+
+
